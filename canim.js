@@ -72,7 +72,7 @@ var Sprite = function(canim, img, start, delay, duration){
   sprite.delay = function(d){sprite._delay=d;return sprite}
   sprite.duration = function(d){sprite._duration=d;return sprite}
   sprite.stop = function(){sprite._stop=true;return sprite}
-  sprite.ease = function(e){if(!Ease){console.log('ease function not support.')}else sprite._ease=new Ease(e);return sprite}
+  sprite.ease = function(e){if(!window.Ease){console.log('ease function not support.')}else sprite._ease=new Ease(e);return sprite}
   sprite.draw = function(){
     if (sprite.canim.current < sprite._delay) return
     else if (sprite._stop && sprite.canim.current > sprite._delay + sprite._duration){
