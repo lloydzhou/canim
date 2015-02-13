@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+      body {
+        overflow: hidden;
+      }
+      img {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="720" height="1280" style="display:block;"></canvas>
+    <img id="myImg" onload="main(this)" src="http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg">
+    <script src="canim.js"></script>
+    <script>
+    var main = function(img){
+      var canvas = document.getElementById('myCanvas');
+      var c = new Canim(canvas, window.innerWidth, window.innerHeight, 10) 
+      c.sprite(img).start(360, 640).scale(0,0, true).scale(1).duration(2)
+       .next(1).translate(100, 100).rotate(1)
+       .next(3).scale(0.5).move(-100, -100)
+      c.start()
+    }
+    </script>
+  </body>
+</html>
