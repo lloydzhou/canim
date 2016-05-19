@@ -15,13 +15,13 @@
     </style>
   </head>
   <body>
-    <canvas id="myCanvas" width="720" height="1280" style="display:block;margin: 0 auto;background: #e8e8e8"></canvas>
+    <canvas id="myCanvas" style="display:block;margin: 0 auto;background: #e8e8e8"></canvas>
     <img id="myImg" onload="main(this)" src="http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg">
     <script src="ease/ease.js"></script>
     <script src="canim.js"></script>
     <script>
     var canvas = document.getElementById('myCanvas'), width = window.innerWidth, height = window.innerHeight, maxwidth = height / 1.7;
-    var s = canvas.getContext('2d').scene(width > maxwidth ? maxwidth : width, height, 20)
+    var s = canvas.getContext('2d').scene(720, 1280, width > maxwidth ? maxwidth : width, height, 20)
     var main = function(img){
       s.sprite(function(ctx){
         ctx.font = "50px Arial";

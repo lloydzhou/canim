@@ -49,11 +49,11 @@
     }
     return sprite
   }
-  Canim.scene = function(width, height, duration, sprites, autostart){
+  Canim.scene = function(dwidth, dheight, width, height, duration, sprites, autostart){
     var time = function(){return new Date().getTime() / 1000;}, ctx = this, canvas = ctx.canvas
     , raf = win.requestAnimationFrame || win.webkitRequestAnimationFrame || win.mozRequestAnimationFrame ||
         function( callback ){win.setTimeout(callback, 1000 / 60);}
-    , canim = {canvas: canvas, ctx: ctx, width: canvas.width, height: canvas.height, begin: time(), end: duration, sprites: sprites || []}
+    , canim = {ctx: ctx, begin: time(), end: duration, sprites: sprites || []}
     , reset = function(){
         canvas.width = width
         canvas.height = height
@@ -64,13 +64,13 @@
         if (canim.end && canim.current >= canim.end) return;
         reset()
         canim.sprites.forEach(function(s){
-          Canim.setTransform.apply(ctx, canim._t)
+          Canim.setTransform.apply(ctx, canim.t)
           s.draw()
         })
         raf(draw)
     }, initTransform = function(){
-      var w = width, h = height, t1 = w/h, t2 = canim.width/canim.height, k1 = w/canim.width, k2 = h/canim.height;
-      canim._t = t1>t2 ? [k1, 0, 0, k1, 0, (h-w/t2)/2] : [k2, 0, 0, k2, (w-h*t2)/2, 0]
+      var w = width, h = height, t1 = w/h, t2 = dwidth/dheight, k1 = w/dwidth, k2 = h/dheight;
+      canim.t = t1>t2 ? [k1, 0, 0, k1, 0, (h-w/t2)/2] : [k2, 0, 0, k2, (w-h*t2)/2, 0]
     }
     canim.start = function(){draw()}
     canim.sprite = function(img, start, delay, duration){
