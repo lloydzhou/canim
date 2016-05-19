@@ -1,4 +1,4 @@
-;(function(Canim){
+;(function(Canim, Ease){
   var Sprite = function(canim, img, start, delay, duration){
     var ctx = canim.ctx, s = start || [1,0,0,1,0,0], sprite = {
       canim: canim, img: img, _delay: delay || 0, _duration: duration, angle:0,
@@ -16,7 +16,7 @@
     }
     sprite.getTransform = function(t){
       var de = sprite._delay, du = sprite._duration, k = du==0?1:(t - de)/du, m=sprite._m;
-      k = k > 1 ? 1 : sprite._ease?sprite._ease(k):k
+      k = k > 1 ? 1 : sprite._ease(k)
       return _(sprite._start.map(function(n, i){return (m[i]-n) * k + n}), a2m(sprite.angle*k))
     }
     sprite.transform = function(n, isStart){
@@ -39,7 +39,7 @@
     sprite.delay = function(d){sprite._delay=d;return sprite}
     sprite.duration = function(d){sprite._duration=d;return sprite}
     sprite.stop = function(){sprite._stop=true;return sprite}
-    sprite.ease = function(e){if(!window.Ease){console.log('ease function not support.')}else sprite._ease=new Ease(e);return sprite}
+    sprite.ease = function(e){sprite._ease=new Ease(e);return sprite}
     sprite.draw = function(){
       if (sprite.canim.current < sprite._delay) return
       else if (sprite._stop && canim.current > sprite._delay + sprite._duration){
@@ -90,5 +90,5 @@
     reset() &&  autostart && canim.start()
     return canim
   }
-})(CanvasRenderingContext2D.prototype)
+})(CanvasRenderingContext2D.prototype, window.Ease || function(){return function(k){return k}})
 
