@@ -41,14 +41,8 @@
     sprite.stop = function(){sprite._stop=true;return sprite}
     sprite.ease = function(e){sprite._ease=new Ease(e);return sprite}
     sprite.draw = function(){
-      if (canim.current < sprite._delay) return
-      else if (sprite._stop && canim.current > sprite._delay + sprite._duration){
-          sprite.onend&&sprite.onend(sprite)
-          return sprite.onend=null;
-      }else if (sprite.onstart) {
-          sprite.onstart(sprite)
-          sprite.onstart = null;
-      }
+      if (canim.current < sprite._delay || (sprite._stop && canim.current > sprite._delay + sprite._duration))
+          return
       Canim.transform.apply(ctx, sprite.getTransform(canim.current))
       if (typeof img == "function")
           img.call(canim, ctx)
