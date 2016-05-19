@@ -22,8 +22,15 @@
     <script>
     var main = function(img){
       var canvas = document.getElementById('myCanvas');
-      var c = new Canim(canvas, window.innerWidth, window.innerHeight, 10) 
+      var c = canvas.getContext('2d').scene(window.innerWidth, window.innerHeight, 10)
       c.sprite(img).start(360, 640).scale(0,0, true).scale(1).duration(2).ease('out-elastic')
+       .next(1).translate(100, 100).rotate(1).ease('out-bounce')
+       .next(3).scale(0.5).move(-100, -100)
+      c.sprite(function(ctx){
+         ctx.font = "50px Arial";
+         ctx.textAlign = "center";
+         ctx.fillText("Hello World",0,0);
+      }).start(360, 300).scale(0,0, true).scale(1).duration(2).ease('out-elastic')
        .next(1).translate(100, 100).rotate(1).ease('out-bounce')
        .next(3).scale(0.5).move(-100, -100)
       c.start()
