@@ -49,7 +49,6 @@
           sprite.onstart(sprite)
           sprite.onstart = null;
       }
-      //console.log(sprite.canim)
       Canim.transform.apply(ctx, sprite.getTransform(canim.current))
       if (typeof img == "function")
           img.call(canim, ctx)
@@ -66,8 +65,8 @@
         canvas.width = width
         canvas.height = height
         ctx.setTransform(1,0,0,1,0,0)
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    },draw = function(){
+        ctx.clearRect(0, 0, width, height);
+    }, draw = function(){
         canim.current = time() - canim.begin
         if (canim.end && canim.current >= canim.end) return 0;
         reset()
