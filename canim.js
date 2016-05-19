@@ -30,11 +30,10 @@
     sprite.scale = function(sx,sy, isStart){
       return sprite.transform([sx,0,0,sy||sx,0,0], isStart)
     }
-    sprite.move = sprite.translate = function(x,y,isStart){
+    sprite.moveTo = sprite.move = sprite.translate = function(x,y,isStart){
       return sprite.transform([1,0,0,1,x,y],isStart)
     }
-    sprite.start = function(x,y){ sprite._start[4] = x;sprite._start[5] = y;return sprite.move(x,y)}
-    sprite.moveTo = function(x,y){ sprite._m[4] = x;sprite._m[5] = y;return sprite}
+    sprite.start = function(x,y){ sprite.move(x,y,true);return sprite.move(x,y)}
     sprite.setTransform = function(m){sprite._m=m;return sprite}
     sprite.delay = function(d){sprite._delay=d;return sprite}
     sprite.duration = function(d){sprite._duration=d;return sprite}
