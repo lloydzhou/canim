@@ -1,4 +1,4 @@
-;(function(Canim, Ease){
+;(function(win, Canim, Ease){
   var Sprite = function(canim, img, start, delay, duration){
     var ctx = canim.ctx, s = start || [1,0,0,1,0,0], sprite = {
       canim: canim, img: img, _delay: delay || 0, _duration: duration, angle:0,
@@ -41,7 +41,7 @@
     sprite.stop = function(){sprite._stop=true;return sprite}
     sprite.ease = function(e){sprite._ease=new Ease(e);return sprite}
     sprite.draw = function(){
-      if (sprite.canim.current < sprite._delay) return
+      if (canim.current < sprite._delay) return
       else if (sprite._stop && canim.current > sprite._delay + sprite._duration){
           sprite.onend&&sprite.onend(sprite)
           return sprite.onend=null;
@@ -58,8 +58,8 @@
   }
   Canim.scene = function(width, height, duration, sprites, autostart){
     var time = function(){return new Date().getTime() / 1000;}, ctx = this, canvas = ctx.canvas
-    , raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || 
-        function( callback ){window.setTimeout(callback, 1000 / 60);}
+    , raf = win.requestAnimationFrame || win.webkitRequestAnimationFrame || win.mozRequestAnimationFrame ||
+        function( callback ){win.setTimeout(callback, 1000 / 60);}
     , canim = {canvas: canvas, ctx: ctx, width: canvas.width, height: canvas.height, begin: time(), end: duration, sprites: sprites || []}
     , reset = function(){
         canvas.width = width
@@ -68,7 +68,7 @@
         ctx.clearRect(0, 0, width, height);
     }, draw = function(){
         canim.current = time() - canim.begin
-        if (canim.end && canim.current >= canim.end) return 0;
+        if (canim.end && canim.current >= canim.end) return;
         reset()
         canim.sprites.forEach(function(s){
           Canim.setTransform.apply(ctx, canim.getTransform())
@@ -90,5 +90,5 @@
     reset() &&  autostart && canim.start()
     return canim
   }
-})(CanvasRenderingContext2D.prototype, window.Ease || function(){return function(k){return k}})
+})(window, CanvasRenderingContext2D.prototype, window.Ease || function(){return function(k){return k}})
 

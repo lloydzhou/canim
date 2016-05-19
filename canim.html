@@ -20,9 +20,9 @@
     <script src="ease/ease.js"></script>
     <script src="canim.js"></script>
     <script>
+    var canvas = document.getElementById('myCanvas'), width = window.innerWidth, height = window.innerHeight, maxwidth = height / 1.7;
+    var s = canvas.getContext('2d').scene(width > maxwidth ? maxwidth : width, height, 20)
     var main = function(img){
-      var canvas = document.getElementById('myCanvas'), width = window.innerWidth, height = window.innerHeight, maxwidth = height / 1.7;
-      var s = canvas.getContext('2d').scene(width > maxwidth ? maxwidth : width, height, 20)
       s.sprite(function(ctx){
         ctx.font = "50px Arial";
         ctx.textAlign = "center";
@@ -34,6 +34,7 @@
        .next(1).translate(100, 100).rotate(1).ease('out-bounce')
        .next(3).move(-100, -100).ease('line')
       s.start()
+      console.log(s)
     }
     </script>
   </body>
