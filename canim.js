@@ -64,15 +64,13 @@
         if (canim.end && canim.current >= canim.end) return;
         reset()
         canim.sprites.forEach(function(s){
-          Canim.setTransform.apply(ctx, canim.getTransform())
+          Canim.setTransform.apply(ctx, canim._t)
           s.draw()
         })
         raf(draw)
-    }
-    canim.getTransform = function(){
+    }, initTransform = function(){
       var w = width, h = height, t1 = w/h, t2 = canim.width/canim.height, k1 = w/canim.width, k2 = h/canim.height;
       canim._t = t1>t2 ? [k1, 0, 0, k1, 0, (h-w/t2)/2] : [k2, 0, 0, k2, (w-h*t2)/2, 0]
-      return canim._t
     }
     canim.start = function(){draw()}
     canim.sprite = function(img, start, delay, duration){
@@ -80,7 +78,7 @@
       canim.sprites.push(s)
       return s
     }
-    reset() &&  autostart && draw()
+    initTransform(), reset(), autostart && draw()
     return canim
   }
 })(window, CanvasRenderingContext2D.prototype, window.Ease || function(){return function(k){return k}})
