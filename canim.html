@@ -15,18 +15,26 @@
     </style>
   </head>
   <body>
-    <canvas id="myCanvas" width="720" height="1280" style="display:block;"></canvas>
+    <canvas id="myCanvas" style="display:block;margin: 0 auto;background: #e8e8e8"></canvas>
     <img id="myImg" onload="main(this)" src="http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg">
     <script src="ease.min.js"></script>
     <script src="canim.js"></script>
     <script>
+    var canvas = document.getElementById('myCanvas'), width = window.innerWidth, height = window.innerHeight, maxwidth = height / 1.7;
+    var s = canvas.getContext('2d').scene(720, 1280, width > maxwidth ? maxwidth : width, height, 20)
     var main = function(img){
-      var canvas = document.getElementById('myCanvas');
-      var c = new Canim(canvas, window.innerWidth, window.innerHeight, 10) 
-      c.sprite(img).start(360, 640).scale(0,0, true).scale(1).duration(2).ease('out-elastic')
+      s.sprite(function(ctx){
+        ctx.font = "50px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("Hello World",0,0);
+      }).start(360, 300).scale(0,0, true).scale(1).duration(2).ease('out-elastic')
        .next(1).translate(100, 100).rotate(1).ease('out-bounce')
-       .next(3).scale(0.5).move(-100, -100)
-      c.start()
+       .next(3).move(-100, -100).ease('line')
+      s.sprite(img).start(360, 640).scale(0,0, true).scale(1).duration(2).ease('out-elastic')
+       .next(1).translate(100, 100).rotate(1).ease('out-bounce')
+       .next(3).move(-100, -100).ease('line')
+      s.start()
+      console.log(s)
     }
     </script>
   </body>
