@@ -1,6 +1,6 @@
 ;(function(win, Canim, Ease){
-  var Sprite = function(canim, img, start, delay, duration){
-    var ctx = canim.ctx, s = start || [1,0,0,1,0,0], sprite = {
+  var set = Canim.setTransform, dm = [1,0,0,1,0,0], Sprite = function(canim, img, start, delay, duration){
+    var ctx = canim.ctx, s = start || dm, sprite = {
       canim: canim, img: img, _delay: delay || 0, _duration: duration, angle:0,
       _start: s, _m: [1,0,0,1,s[4],s[5]], _stop:false,
     }, _ = function(m,n){
@@ -57,14 +57,14 @@
     , reset = function(){
         canvas.width = width
         canvas.height = height
-        ctx.setTransform(1,0,0,1,0,0)
+        set.apply(ctx, dm)
         ctx.clearRect(0, 0, width, height);
     }, draw = function(){
         canim.current = time() - canim.begin
         if (canim.end && canim.current >= canim.end) return;
         reset()
         canim.sprites.forEach(function(s){
-          Canim.setTransform.apply(ctx, canim.t)
+          set.apply(ctx, canim.t)
           s.draw()
         })
         raf(draw)
