@@ -42,7 +42,7 @@
     sprite.ease = function(e){sprite._ease=new Ease(e);return sprite}
     sprite.draw = function(){
       if (canim.current < sprite._delay || (sprite._stop && canim.current > sprite._delay + sprite._duration))
-          return
+          return;
       Canim.transform.apply(ctx, sprite.getTransform(canim.current))
       if (typeof img == "function")
           img.call(canim, ctx)
@@ -81,7 +81,7 @@
       canim.sprites.push(s)
       return s
     }
-    reset() &&  autostart && canim.start()
+    reset() &&  autostart && draw()
     return canim
   }
 })(window, CanvasRenderingContext2D.prototype, window.Ease || function(){return function(k){return k}})
