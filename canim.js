@@ -44,7 +44,7 @@
           return;
       Canim.transform.apply(ctx, sprite.getTransform(canim.current))
       if (typeof img == "function")
-          img.call(canim, ctx)
+          img.call(sprite, ctx)
       else ctx.drawImage(img, -img.naturalWidth/2, -img.naturalHeight/2)
     }
     return sprite
