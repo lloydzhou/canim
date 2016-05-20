@@ -21,18 +21,24 @@
     <script src="canim.js"></script>
     <script>
     var canvas = document.getElementById('myCanvas'), width = window.innerWidth, height = window.innerHeight, maxwidth = height / 1.7;
-    var s = canvas.getContext('2d').scene(720, 1280, width > maxwidth ? maxwidth : width, height, 20)
+    var s = canvas.getContext('2d').scene(720, 1280, width > maxwidth ? width : width, height, 1)
     var main = function(img){
       s.sprite(function(ctx){
         ctx.font = "50px Arial";
         ctx.textAlign = "center";
-        ctx.fillText("May the Force be with you!!!",0,0);
+        var text = "May the Force be with you!!!"
+        ctx.fillText(text,0,0);
+        var w = ctx.measureText(text).width, h = parseInt(ctx.font) * 2
+        ctx.rect(-w/2, -h/2, w, h)
       }).start(360, 300).scale(0,0, true).scale(1).duration(2).ease('out-elastic')
        .next(1).translate(100, 100).rotate(1).ease('out-bounce')
        .next(3).move(-100, -100).ease('line')
       s.sprite(img).start(360, 640).scale(0,0, true).scale(1).duration(2).ease('out-elastic')
        .next(1).translate(100, 100).rotate(1).ease('out-bounce')
        .next(3).move(-100, -100).ease('line')
+       .on('touchstart', function(e){
+         console.log(e)
+       })
       s.start()
       console.log(s)
     }

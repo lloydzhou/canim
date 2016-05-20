@@ -1,6 +1,6 @@
 ;(function(win, Canim, Ease){
   var set = Canim.setTransform, dm = [1,0,0,1,0,0], Sprite = function(canim, img, start, delay, duration){
-    var ctx = canim.ctx, s = start || dm, sprite = {
+    var ctx = canim.ctx, canvas = ctx.canvas, s = start || dm, sprite = {
       canim: canim, img: img, _delay: delay || 0, _duration: duration, angle:0,
       _start: s, _m: [1,0,0,1,s[4],s[5]], _stop:false,
     }, _ = function(m,n){
@@ -42,10 +42,25 @@
     sprite.draw = function(){
       if (canim.current < sprite._delay || (sprite._stop && canim.current > sprite._delay + sprite._duration))
           return;
-      Canim.transform.apply(ctx, sprite.getTransform(canim.current))
+      Canim.transform.apply(ctx, t = sprite.getTransform(canim.current))
       if (typeof img == "function")
           img.call(sprite, ctx)
-      else ctx.drawImage(img, -img.naturalWidth/2, -img.naturalHeight/2)
+      else{
+          var w = img.naturalWidth, h = img.naturalHeight
+          ctx.drawImage(img, -w/2, -h/2)
+          ctx.rect(-w/2, -h/2, w, h)
+      }
+      console.log(ctx.isPointInPath(t[4]-w/2+100, t[5]))
+    }
+    sprite.on = function(eventname, func){
+      canvas.addEventListener(eventname, function(e){
+        var pos = e.touches && e.touches[0] || e,
+          r = canvas.getBoundingClientRect(), _t = canim.t,
+          a = [1,0,0,1,(pos.clientX-r.left-_t[4])/_t[0], (pos.clientY-r.top-_t[5])/_t[0]],
+          p = _(a, t)
+          if (ctx.isPointInPath(a[4], a[5]))
+            func(sprite)
+      }, false)
     }
     return sprite
   }
